@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swift Mobile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f6f1e7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #003366;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #00509e;
+        }
+        img {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="login">
+    <img src="logo.png" alt="Swift Mobile Logo">
+    <h2>Iniciar Sesión</h2>
+    <input type="text" id="cedula" placeholder="Cédula">
+    <input type="password" id="password" placeholder="Contraseña">
+    <button onclick="login()">Iniciar Sesión</button>
+    <button onclick="mostrarRegistro()">Registrar</button>
+</div>
+
+<div class="container" id="registro" style="display:none;">
+    <h2>Registro</h2>
+    <input type="text" id="nombre" placeholder="Nombre Completo">
+    <input type="text" id="contacto" placeholder="Número de Contacto">
+    <input type="text" id="cedulaRegistro" placeholder="Cédula">
+    <label>Fecha de Expedición</label>
+    <input type="date" id="fechaExpedicion">
+    <input type="text" id="ciudad" placeholder="Ciudad de Residencia">
+    <input type="text" id="barrio" placeholder="Barrio">
+    <input type="text" id="direccion" placeholder="Dirección">
+    <input type="email" id="correo" placeholder="Correo Electrónico">
+    <input type="password" id="contrasena" placeholder="Contraseña Swift">
+    <input type="password" id="confirmarContrasena" placeholder="Confirmar Contraseña">
+    <label>Seleccionar Plan</label>
+    <select id="plan">
+        <option value="">Selecciona un plan</option>
+        <option value="prueba">3 Días de Prueba Gratis</option>
+        <option value="mensual">Comprar Plan Mensual</option>
+    </select>
+    <button onclick="enviarDatos()">Enviar Datos</button>
+</div>
+
+<div class="container" id="enviando" style="display:none;">
+    <h2>Enviando Datos...</h2>
+</div>
+
+<div class="container" id="exito" style="display:none;">
+    <h2>Datos Enviados con Éxito</h2>
+    <button onclick="volverAlInicio()">Iniciar Sesión</button>
+</div>
+
+<div class="container" id="cuenta" style="display:none;">
+    <h2>Cuenta en Proceso de Activación</h2>
+    <p id="mostrarCedula"></p>
+    <p>El tiempo estimado de activación es de 48 horas hábiles.</p>
+    <p>Al activar, recibirás un mensaje de confirmación.</p>
+    <button onclick="cerrarSesion()">Cerrar Sesión</button>
+</div>
+
+<script>
+    function mostrarRegistro() {
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('registro').style.display = 'block';
+    }
+
+    function enviarDatos() {
+        var nombre = document.getElementById('nombre').value.trim();
+        var contacto = document.getElementById('contacto').value.trim();
+        var cedulaRegistro = document.getElementById('cedulaRegistro').value.trim();
+        var fechaExpedicion = document.getElementById('fechaExpedicion').value.trim();
+        var ciudad = document.getElementById('ciudad').value.trim();
+        var barrio = document.getElementById('barrio').value.trim();
+        var direccion = document.getElementById('direccion').value.trim();
+        var correo = document.getElementById('correo').value.trim();
+        var contrasena = document.getElementById('contrasena').value.trim();
+        var confirmarContrasena = document.getElementById('confirmarContrasena').value.trim();
+        var plan = document.getElementById('plan').value;
+
+        if (nombre && contacto && cedulaRegistro && fechaExpedicion && ciudad && barrio && direccion && correo && contrasena && confirmarContrasena && plan) {
+            if (contrasena !== confirmarContrasena) {
+                alert('Las contraseñas no coinciden.');
+                return;
+            }
+
+            document.getElementById('registro').style.display = 'none';
+            document.getElementById('enviando').style.display = 'block';
+            setTimeout(function() {
+                document.getElementById('enviando').style.display = 'none';
+                document.getElementById('exito').style.display = 'block';
+            }, 8000);
+        } else {
+            alert('Por favor, completa todos los campos correctamente.');
+        }
+    }
+
+    function volverAlInicio() {
+        document.getElementById('exito').style.display = 'none';
+        document.getElementById('login').style.display = 'block';
+    }
+
+    function login() {
+        var cedula = document.getElementById('cedula').value;
+        var password = document.getElementById('password').value;
+        if (cedula.length > 0 && password.length > 0) {
+            document.getElementById('login').style.display = 'none';
+            document.getElementById('cuenta').style.display = 'block';
+            document.getElementById('mostrarCedula').innerText = 'Cédula: ' + cedula;
+        } else {
+            alert('Por favor, ingresa cédula y contraseña.');
+        }
+    }
+
+    function cerrarSesion() {
+        document.getElementById('cuenta').style.display = 'none';
+        document.getElementById('login').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
